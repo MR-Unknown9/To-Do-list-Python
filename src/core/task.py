@@ -20,3 +20,6 @@ class TASKS:
         del self.__description
         del self.__date
         del self.__state
+
+
+task = TASKS()
