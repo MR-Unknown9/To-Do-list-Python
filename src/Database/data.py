@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DB_FILE = "New/Projects/To-Do list/Database/data.db"
+DB_FILE = "New/Projects/To-Do list/src/database/data.db"
 
 
 def open_db():
@@ -29,4 +29,17 @@ def open_db():
 
 
 def close_db(conn):
+    conn.close()
+
+
+def add_db(Title, Description, Date, State):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """INSERT INTO TASKS (Title, Description, Date, State)
+                VALUES (?, ?, ?, ?) """,
+        (Title, Description, Date, State),
+    )
+    conn.commit()
     conn.close()
