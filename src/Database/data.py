@@ -118,6 +118,29 @@ class Database:
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
 
+    @classmethod
+    def search_db(cls, identifier):
+        try:
+            cls.__cursor.execute(
+                """SELECT * FROM TASKS WHERE ID = ? OR Title = ?""",
+                (identifier, identifier),
+            )
+            task = cls.__cursor.fetchone()
+            return task
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            return None
+
+    @classmethod
+    def fetch_all_tasks(cls):
+        try:
+            cls.__cursor.execute("SELECT * FROM TASKS")
+            tasks = cls.__cursor.fetchall()
+            return tasks
+        except sqlite3.Error as e:
+            print(f"An error occurred: {e}")
+            return []
+
 
 # Global database instance
 db = Database()

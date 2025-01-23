@@ -1,7 +1,8 @@
 import re
 from src.database.data import db
 from src.core.task import task
-from src.gui import mainGUI
+from src.gui.mainGUI import ToDoApp
+import ttkbootstrap as ttkb
 
 DATE_FORMAT = r"\d{2}/\d{2}/\d{4}"
 
@@ -26,12 +27,23 @@ def edit_task(
     db.edit_db(identifier, new_title, new_description, new_date, new_state)
 
 
-def search():
-    pass
+def search_task(identifier=None):
+    if identifier:
+        task = db.search_db(identifier)
+        if task:
+            return task
+        else:
+            return []
+    else:
+        return db.fetch_all_tasks()
 
 
 def main():
-    pass
+    db.open_db()
+    root = ttkb.Window(themename="cosmo")
+    app = ToDoApp(root, add_task, edit_task, delete_task, search_task)
+    root.mainloop()
+    db.close_db()
 
 
 if __name__ == "__main__":
